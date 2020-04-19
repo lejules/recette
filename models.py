@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core.validators import URLValidator
 
 # Create your models here.
 class Recette(models.Model):
@@ -59,7 +59,7 @@ class Ingredient(models.Model):
 
 class Media(models.Model):
     photo = models.ImageField()
-    url = models.CharField(max_length=255)
+    url = models.CharField(max_length=255, validators=[URLValidator])
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
 
 
@@ -68,5 +68,3 @@ class Commentaire(models.Model):
     cree = models.DateTimeField(auto_now_add=True)
     maj = models.DateTimeField(auto_now=True)
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
-
-

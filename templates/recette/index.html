@@ -1,10 +1,4 @@
 <!doctype html>
-<!--
-	Itsy by FreeHTML5.co
-	Twitter: https://twitter.com/fh5co
-	Facebook: https://fb.com/fh5co
-	URL: https://freehtml5.co
--->
 <html class="home blog no-js" lang="fr-FR">
 <head>
     <title>Recettes</title>
@@ -116,159 +110,36 @@
 
 
     <div class="sticky-inner">
-
+    {% for recette in recettes %}
         <aside class="home-sticky-post post has-post-thumbnail sticky">
 
   		    <span class="post-image">
   				<a href="#">
-  				<img width="502" height="502" src="{% static 'recette/images/Lollipop-502x502.jpg' %}"
+  				<!--<img width="502" height="502" src="{% static 'recette/images/Lollipop-502x502.jpg' %}"
+                     class="attachment-sticky size-sticky" alt=""/>-->
+            {% for media in recette.media_set.all %}
+                <img width="502" height="502" src="{{ media.photo.url }}"
                      class="attachment-sticky size-sticky" alt=""/>
+            {% endfor %}
   				</a>
   		    </span>
 
             <div class="inner">
                 <h3 class="entry-title">
-                    <a href="#">The Lollipop</a>
+                    <a href="#">{{ recette.titre }}</a>
                 </h3>
 
                 <ul class="meta top">
                     <li class="time">
                         <a href="#">
-                            <time class="post-date updated" datetime="2015-02-02">February 2, 2015</time>
+                            <time class="post-date updated" datetime="2015-02-02">{{ recette.cree }}</time>
                         </a>
                     </li>
                 </ul>
             </div>
 
         </aside>
-
-        <aside class="home-sticky-post post has-post-thumbnail sticky ">
-
-            <span class="post-image">
-  				<a href="#">
-  				<img width="502" height="502" src="{% static 'recette/images/Apothecary.jpg' %}"
-                     class="attachment-sticky size-sticky" alt=""/>
-  				</a>
-  		    </span>
-
-            <div class="inner">
-                <h3 class="entry-title">
-                    <a href="#">The Apothecary</a>
-                </h3>
-
-                <ul class="meta top">
-                    <li class="time">
-                        <a href="#"
-                           title="The Apothecary">
-                            <time class="post-date updated" datetime="2015-01-31">January 31, 2015</time>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </aside>
-
-        <aside class="home-sticky-post post has-post-thumbnail sticky">
-
-  		    <span class="post-image">
-                <a href="#">
-                    <img width="502" height="502" src="{% static 'recette/images/Flowers.jpg' %}"
-                     class="attachment-sticky size-sticky" alt=""/>
-  				</a>
-  		    </span>
-
-            <div class="inner">
-                <h3 class="entry-title">
-                    <a href="#">The Flowers</a>
-                </h3>
-
-                <ul class="meta top">
-                    <li class="time">
-                        <a href="#">
-                            <time class="post-date updated" datetime="2015-01-25">January 25, 2015</time>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </aside>
-
-        <aside class="home-sticky-post post has-post-thumbnail sticky ">
-
-  		    <span class="post-image">
-                <a href="#"><img width="502" height="502" src="{% static 'recette/images/Sun.jpg' %}"
-                     class="attachment-sticky size-sticky" alt=""/>
-  				</a>
-            </span>
-
-            <div class="inner">
-                <h3 class="entry-title">
-                    <a href="#">The Sunny Day</a>
-                </h3>
-
-                <ul class="meta top">
-                    <li class="time">
-                        <a href="#"
-                           title="The Sunny Day">
-                            <time class="post-date updated" datetime="2015-01-21">January 21, 2015</time>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </aside>
-
-        <aside class="home-sticky-post post has-post-thumbnail sticky ">
-
-
-  		    <span class="post-image">
-                <a href="#">
-                    <img width="502" height="502" src="{% static 'recette/images/Meeting.jpg' %}"
-                     class="attachment-sticky size-sticky" alt=""/>
-  				</a>
-            </span>
-
-            <div class="inner">
-                <h3 class="entry-title">
-                    <a href="#">The Meeting</a>
-                </h3>
-
-                <ul class="meta top">
-                    <li class="time">
-                        <a href="#">
-                            <time class="post-date updated" datetime="2015-01-02">January 2, 2015</time>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </aside>
-
-        <aside class="home-sticky-post post has-post-thumbnail sticky ">
-
-            <span class="post-image">
-                <a href="#">
-                    <img width="502" height="502" src="{% static 'recette/images/Bridge.jpg' %}"
-                     class="attachment-sticky size-sticky" alt=""/>
-  				</a>
-  		    </span>
-
-
-            <div class="inner">
-                <h3 class="entry-title">
-                    <a href="#">The Bridge</a>
-                </h3>
-
-                <ul class="meta top">
-                    <li class="time">
-                        <a href="#">
-                            <time class="post-date updated" datetime="2014-12-31">December 31, 2014</time>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </aside>
+        {% endfor %}
 
     </div>
 
@@ -768,7 +639,7 @@
 <footer class="footer">
     <div class="footer-wrap">
         <div id="footer-text">&copy; 2018 Itsy.
-            Designed by <a href="https://freehtml5.co" target="_blank">FreeHTML5</a>.</div>
+            Designed by <a href="https://freehtml5.co" target="_blank">FreeHTML5</a>. Merci à eux.</div>
 
         <a href="#top" id="btt">Top <i class="fa fa-chevron-up"></i></a>
     </div>

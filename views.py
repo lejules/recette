@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from .models import Recette, Media
 
 
 # Create your views here.
 def index(request):
-    info = 'salut les terriens'
-    return render(request, 'recette/index.html', {'info': info})
+    recettes = Recette.objects.all()[:6]
+    return render(request, 'recette/index.html', {'recettes': recettes})

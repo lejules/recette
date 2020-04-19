@@ -5,4 +5,5 @@ app_name = 'recette'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('ajout_recette', views.ajout_recette, name='ajout_recette'),
 ]

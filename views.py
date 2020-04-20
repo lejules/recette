@@ -44,3 +44,24 @@ def ajout_recette(request) :
     return render(request, 'recette/ajout_recette.html',
                       {'recette_formset': recette_formset, 'media_formset':media_formset})
 
+
+@login_required(login_url='../admin/login?next=/recette/')
+def ajout_ingredient(request, recette_id):
+    IngredientFormSet = formset_factory(formIngredient, extra=8)
+    if request.method == 'POST':
+        listeIngredients = IngredientFormSet(request.POST)
+        if listeIngredients.is_valid():
+            for form in listeIngredients:
+                if form.has_changed():
+                    test = form.save(commit=False)
+                    test.recette_id = recette_id
+                    form.save()
+        else:
+            print(str(listeIngredients.errors))
+        recette = get_object_or_404(Recette, pk=recette_id)
+        return render(request, 'recette/index.html',
+                      {'recette': recette, 'liste_formulaire_ingredient': IngredientFormSet})
+    else:
+        recette = get_object_or_404(Recette, pk=recette_id)
+        return render(request, 'recette/ajout_ingredient.html',
+                  {'recette': recette, 'liste_formulaire_ingredient': IngredientFormSet})

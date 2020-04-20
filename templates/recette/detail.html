@@ -55,12 +55,17 @@
 
                         </ul>
                         <div class="post-content">
-                            <table>
-                                <tr>
-                                    <td style="min-width:30%;">Ingrédients</td>
-                                    <td>{{ recette.description|linebreaks }}</td>
-                                </tr>
-                            </table>
+                            <blockquote class="content-quote">
+                                Ingrédients
+                                        <ul>
+                                            {% for ing in recette.ingredient_set.all %}
+                                            <li>
+                                                {{ ing.quantite }} {{ ing.designation }}
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                            </blockquote>
+                            {{ recette.description|linebreaks }}
                         </div>
 
 

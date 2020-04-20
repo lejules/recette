@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Recette, Media
 from django.forms import formset_factory
 from  django.urls import reverse
-from django.shortcuts import render, HttpResponseRedirect
-from .forms import formRecette, formMedia
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
+from .forms import formRecette, formMedia, formIngredient
 
 
 # Create your views here.
@@ -12,14 +12,17 @@ def index(request):
     mot = 'Très bien, aucune erreur à afficher'
     return render(request, 'recette/index.html', {'recettes': recettes, 'mot':mot})
 
-@login_required
+
+def detail(request, recette_id):
+    recette = get_object_or_404(Recette, pk=recette_id)
+    return render(request, 'recette/detail.html', {'recette': recette})
+
+
+@login_required(login_url='../admin/login?next=/recette/')
 def ajout_recette(request) :
     # On associe 2 formulaires dans un seul avec un préfixe
     # pour éviter les confusions de champs
-    # RecetteFormSet = formset_factory(formRecette)
-    # MediaFormSet = formset_factory(formMedia)
     if request.method == 'POST':
-        #form = formRecette(request.POST)
         recette_formset = formRecette(request.POST, prefix='recette')
         media_formset = formMedia(request.POST, request.FILES, prefix='media')
         if recette_formset.is_valid() and media_formset.is_valid():
@@ -36,10 +39,6 @@ def ajout_recette(request) :
             return render(request, 'recette/index.html', {'recettes': recettes, 'mot': mot})
 
     else:
-        #form = formRecette()
-        # recette_formset = RecetteFormSet(prefix='recette')
-        # media_formset = MediaFormSet(prefix='media')
-        #return render(request, 'recette/ajout_recette.html', {'form':form})
         recette_formset = formRecette(prefix='recette')
         media_formset = formMedia(prefix='media')
     return render(request, 'recette/ajout_recette.html',

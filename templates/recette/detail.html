@@ -1,0 +1,82 @@
+{% extends 'recette/base.html' %}
+{% block contenu %}
+{% load static %}
+
+<div class="wrap full-wrap">
+    <div class="main-wrap">
+        <section class="main main-archive">
+            <div class="loop">
+                <article class="post format-image has-post-thumbnail post_format-post-format-image">
+
+  		            <span class="post-image">
+  			  				<a href="#" title="Camper Van Fun">
+                                {% for media in recette.media_set.all %}
+  			  				    <img width="916" height="611" src="{{ media.photo.url }}"
+                                     class="attachment-desktop size-desktop" alt="{{ recette.titre }}"/>
+                                {% endfor %}
+                            </a>
+
+  		            </span>
+
+
+                    <div class="inner">
+
+                        <h2 class="entry-title">
+                            <a href="#" title="{{ recette.titre }}">
+                                {{ recette.titre }}
+                            </a>
+                        </h2>
+                        <ul class="meta top">
+                            <li class="time">
+                                <a href="#"
+                                   title="Camper Van Fun">
+                                    <time class="post-date updated" datetime="2014-10-06">
+                                        {{ recette.cree }}
+                                    </time>
+                                </a>
+                            </li>
+
+                            <li class="comments post-tags">
+                                <a href="#">
+                                    XX commentaire
+                                </a>
+                            </li>
+
+                            <li class="author-m post-tags">
+                                Par
+                                <span class="vcard author post-author">
+                                    <span class="fn">
+                                        <a href="#" title="Posts by Clare Smith" rel="author">
+                                    {{ recette.user_set.username }}
+                                        </a>
+                                    </span>
+                                </span>
+                            </li>
+
+                        </ul>
+                        <div class="post-content">
+                            <table>
+                                <tr>
+                                    <td style="min-width:30%;">Ingrédients</td>
+                                    <td>{{ recette.description|linebreaks }}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        <ul class="meta bottom">
+
+                            <li class="cat post-tags">Saved: <a
+                                    href="#">Blog</a>,
+                                <a href="#">Fun</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endblock %}

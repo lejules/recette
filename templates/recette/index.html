@@ -2,12 +2,18 @@
 {% block contenu %}
 {% load static %}
 
-<div class="hero" style="background-image: url('{% static 'recette/images/lead.jpg' %}'); text-align:right;">
+<div class="hero" style="background-image: url('{% static 'recette/images/lead2.jpg' %}'); text-align:right;">
     <div class="hero-inner">
         <div class="inner">
             <h1><span class="border border-top border-bottom">Nana</span></h1>
             <div class="hero-line-one"></div>
-            <div class="hero-line-two"><span class="border border-bottom"><a href="#" style="color:#FFF;">cuisine</a></span></div>
+            <div class="hero-line-two">
+                <span class="border border-bottom">
+                    <a href="#" style="color:#FFF;">
+                        cuisine
+                    </a>
+                </span>
+            </div>
         </div>
 
         <a class="more-arrow" href="#content"><i class="fa fa-chevron-down"></i><span>Scroll Down</span></a>
@@ -16,7 +22,7 @@
 </div>
 <div class="home-sticky" id="content">
 
-    <h2 class="home-sticky-title">Mes recettes préférées</h2>
+    <h2 class="home-sticky-title">Mes dernières recettes</h2>
 <p>{{ mot }}</p>
 
     <div class="sticky-inner">
@@ -24,9 +30,7 @@
         <aside class="home-sticky-post post has-post-thumbnail sticky">
 
   		    <span class="post-image">
-  				<a href="#">
-  				<!--<img width="502" height="502" src="{% static 'recette/images/Lollipop-502x502.jpg' %}"
-                     class="attachment-sticky size-sticky" alt=""/>-->
+  				<a href="{% url 'recette:detail' recette.id %}">
             {% for media in recette.media_set.all %}
                 <img width="502" height="502" src="{{ media.photo.url }}"
                      class="attachment-sticky size-sticky" alt=""/>

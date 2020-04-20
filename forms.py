@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recette, Media, Ingredient
+from .models import Recette, Media, Ingredient, Commentaire
 
 
 class formRecette(forms.ModelForm):
@@ -21,3 +21,4 @@ class formIngredient(forms.ModelForm):
     class Meta:
         model = Ingredient
         exclude = ['recette']
+

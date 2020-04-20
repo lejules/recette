@@ -94,4 +94,4 @@ class Commentaire(models.Model):
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.cree
+        return str(self.cree)

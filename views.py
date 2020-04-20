@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from .models import Recette, Media
+from .models import Recette, Media, Commentaire
 from django.forms import formset_factory
 from  django.urls import reverse
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
@@ -15,7 +15,7 @@ def index(request):
 
 def detail(request, recette_id):
     recette = get_object_or_404(Recette, pk=recette_id)
-    return render(request, 'recette/detail.html', {'recette': recette})
+    return render(request, 'recette/detail.html', {'recette':recette,})
 
 
 @login_required(login_url='../admin/login?next=/recette/')

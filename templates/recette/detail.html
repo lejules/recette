@@ -9,7 +9,7 @@
                 <article class="post format-image has-post-thumbnail post_format-post-format-image">
 
   		            <span class="post-image">
-  			  				<a href="#" title="Camper Van Fun">
+  			  				<a href="#" title="{{ recette.titre }}">
                                 {% for media in recette.media_set.all %}
   			  				    <img width="916" height="611" src="{{ media.photo.url }}"
                                      class="attachment-desktop size-desktop" alt="{{ recette.titre }}"/>
@@ -22,7 +22,7 @@
                     <div class="inner">
 
                         <h2 class="entry-title">
-                            <a href="#" title="{{ recette.titre }}">
+                            <a href="{% url 'recette:modifier_recette' recette.id %}" title="{{ recette.titre }}">
                                 {{ recette.titre }}
                             </a>
                         </h2>
@@ -37,7 +37,7 @@
                             </li>
 
                             <li class="comments post-tags">
-                                <a href="#commentaire" title="Voir les commentaires">
+                                <a href="#comments" title="Voir les commentaires">
                                     {{ recette.commentaire_set.count }} commentaire{{ recette.commentaire_set.count|pluralize }}
                                 </a>
                             </li>
@@ -55,6 +55,12 @@
 
                         </ul>
                         <div class="post-content">
+                            <p style="text-align: center;">
+                                Préparation {{ recette.temps_preparation }} mn
+                                | Cuisson {{ recette.temps_cuisson }} mn
+                                | Difficulté {{ recette.get_difficulte_display }}
+                                | Coût {{ recette.get_cout_display }}
+                            </p>
                             <blockquote class="content-quote">
                                 {% if user.is_authenticated %}
                                 <a href="{% url 'recette:ajout_ingredient' recette.id %}" title="Modifier la liste des ingrédients">
@@ -63,6 +69,7 @@
                                 {% else %}
                                 Ingrédients
                                 {% endif %}
+                                pour {{ recette.nombre_mangeur }} mangeurs
                                         <ul>
                                             {% for ing in recette.ingredient_set.all %}
                                             <li>

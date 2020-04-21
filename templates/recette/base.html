@@ -14,6 +14,7 @@
     <link rel="stylesheet" id="lt-ie9-css" href="{% static 'recette/css/ie.css' %}" type="text/css" media="screen"/>
     <![endif]-->
     <script src="{% static 'recette/js/jquery-3.0.0.min.js' %}"></script>
+    <script src="{% static 'recette/js/jquery-migrate-3.0.1.min.js' %}"></script>
     <script src="{% static 'recette/js/recette.js' %}"></script>
 
 </head>
@@ -65,8 +66,9 @@
 <div id="topsearch">
     <div class="table">
         <div class="table-cell">
-            <form role="search" method="get" class="searchform" action="{% url 'recette:index' %}">
+            <form role="search" method="post" class="searchform" action="{% url 'recette:index' %}">
                 <div>
+                    {% csrf_token %}
                     <input type="text" value="" name="s" class="s" placeholder="Votre recherche"/>
                     <input type="submit" class="searchsubmit" value="Search"/>
                 </div>
@@ -153,5 +155,7 @@
 <!--[if lte IE 9 ]>
 <script> var ie9 = true; </script>
 <![endif]-->
+<script src="{% static 'recette/js/global-plugins.min.js' %}"></script>
+<script src="{% static 'recette/js/main.js' %}"></script>
 </body>
 </html>

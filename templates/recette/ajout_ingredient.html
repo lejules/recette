@@ -4,6 +4,9 @@
 
 <div class="wrap full-wrap">
     <h1 class="entry-title">
+        <a href="{% url 'recette:detail' recette.id %}">
+            <img src="{% static 'recette/images/icons/retour.png' %}" title="Revenir en arrière" />
+        </a>
     Ajouter des ingrédients pour {{ recette.titre }}
     </h1>
     <div class="main-wrap">

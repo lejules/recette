@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'recette/base.html' %}
+{% block contenu %}
+{% load static %}
+
+
+<div class="wrap full-wrap">
+    <h1 class="entry-title">
+    Modifier une recette
+    </h1>
+    <div class="main-wrap">
+        <div class="loop">
+            <div class="inner">
+                <form action="{% url 'recette:modifier_recette' recette.id %}" enctype="multipart/form-data" class="searchform" method="post">
+                    {% csrf_token %}
+                    {{ recette_formset.as_p }}
+
+                    <input type="submit" value="ajouter">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -71,7 +71,7 @@ class Recette(models.Model):
 class Ingredient(models.Model):
     designation = models.CharField(max_length=255)
     quantite = models.DecimalField(max_digits=7, decimal_places=1)
-    ordre = models.IntegerField()
+    ordre = models.IntegerField(default=0)
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -9,7 +9,7 @@
     <div class="main-wrap">
         <div class="loop">
             <div class="inner">
-                <form action="{% url 'recette:ajout_ingredient' recette.id %}" class="searchform" method="post">
+                <form action="{% url 'recette:ajout_ingredient' recette.id %}" id="addIngre" class="searchform" method="post">
                     {% csrf_token %}
                     {% for formIngredient in liste_formulaire_ingredient %}
                     {{ formIngredient.as_p }}

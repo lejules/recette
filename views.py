@@ -32,7 +32,7 @@ def ajout_recette(request) :
             media = media_formset.save(commit=False)
             media.recette_id = recette.id
             media.save()
-            return HttpResponseRedirect(reverse('recette:index'))
+            return HttpResponseRedirect(reverse('recette:ajout_ingredient', args=(recette.id,)))
         else:
             recettes = Recette.objects.all()[:6]
             mot = 'Erreur : '+str(media_formset.is_valid())
@@ -47,9 +47,20 @@ def ajout_recette(request) :
 
 @login_required(login_url='../admin/login?next=/recette/')
 def ajout_ingredient(request, recette_id):
-    IngredientFormSet = formset_factory(formIngredient, extra=8)
+    recette = get_object_or_404(Recette, pk=recette_id)
+    # On gère les données déjà inscrites dans les ingrédients de cette recette
+    listeIngre = list()
+    for ing in recette.ingredient_set.all():
+        dic = {'id': ing.id,
+               'designation': ing.designation,
+               'quantite': ing.quantite,
+               'ordre': ing.ordre,}
+        listeIngre.append(dic)
+    formset = formset_factory(formIngredient, extra=8)
+    IngredientFormSet = formset(initial=listeIngre)
+    # Si on enregistre, on teste le tout avec ces données initiales pour ne pas enregistrer 2 fois
     if request.method == 'POST':
-        listeIngredients = IngredientFormSet(request.POST)
+        listeIngredients = formset(request.POST, initial=listeIngre)
         if listeIngredients.is_valid():
             for form in listeIngredients:
                 if form.has_changed():
@@ -58,9 +69,10 @@ def ajout_ingredient(request, recette_id):
                     form.save()
         else:
             print(str(listeIngredients.errors))
-        recette = get_object_or_404(Recette, pk=recette_id)
-        return render(request, 'recette/index.html',
-                      {'recette': recette, 'liste_formulaire_ingredient': IngredientFormSet})
+        recettes = Recette.objects.all()[:6]
+        mot = 'Erreur : ' + str(listeIngredients.errors)
+        #return render(request, 'recette/index.html', {'recettes': recettes, 'mot': mot})
+        return HttpResponseRedirect(reverse('recette:detail', args=(recette_id,)))
     else:
         recette = get_object_or_404(Recette, pk=recette_id)
         return render(request, 'recette/ajout_ingredient.html',

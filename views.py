@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from .models import Recette, Media, Commentaire
+from .models import Recette, Ingredient, Media, Commentaire
 from django.forms import formset_factory
 from django.urls import reverse
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
 from .forms import formRecette, formMedia, formIngredient
 
 
@@ -13,11 +13,12 @@ def index(request):
         recherche = request.POST["s"]
         recettes = Recette.objects.filter(titre__icontains=recherche)
     else:
-        recettes = Recette.objects.order_by("-cree")
+        recettes = Recette.objects.order_by("?")
     pagination = Paginator(recettes, 9)
     numero_page = request.GET.get('page')
     page_obj = pagination.get_page(numero_page)
-    return render(request, 'recette/index.html', {'page_obj': page_obj, })
+    aff_footer = Recette.objects.order_by("-cree")[:4]
+    return render(request, 'recette/index.html', {'page_obj': page_obj, 'aff_footer': aff_footer, })
 
 
 def detail(request, recette_id):
@@ -83,6 +84,13 @@ def ajout_ingredient(request, recette_id):
         recette = get_object_or_404(Recette, pk=recette_id)
         return render(request, 'recette/ajout_ingredient.html',
                   {'recette': recette, 'liste_formulaire_ingredient': IngredientFormSet})
+
+
+@login_required(login_url='../admin/login?next=/recette/')
+def supprimer_ingredient(request, ingredient_id) :
+    ingredient = Ingredient.objects.get(pk=ingredient_id)
+    ingredient.delete()
+    return HttpResponse('Ingrédient supprimé !')
 
 
 @login_required(login_url='../admin/login?next=/recette/')

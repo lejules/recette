@@ -61,7 +61,7 @@
                                 | Difficulté {{ recette.get_difficulte_display }}
                                 | Coût {{ recette.get_cout_display }}
                             </p>
-                            <blockquote class="content-quote">
+                            <blockquote class="content-quote" id="liste_ingredients">
                                 {% if user.is_authenticated %}
                                 <a href="{% url 'recette:ajout_ingredient' recette.id %}" title="Modifier la liste des ingrédients">
                                     Ingrédients
@@ -72,7 +72,11 @@
                                 pour {{ recette.nombre_mangeur }} mangeurs
                                         <ul>
                                             {% for ing in recette.ingredient_set.all %}
-                                            <li>
+                                            {% if user.is_authenticated %}
+                                            <li value="{{ ing.id }}" title="Cliquer pour supprimer l'ingrédient">[-]
+                                            {% else %}
+                                            <li value="0">
+                                            {% endif %}
                                                 {{ ing.quantite }} {{ ing.designation }}
                                             </li>
                                             {% endfor %}

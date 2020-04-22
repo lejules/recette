@@ -15,4 +15,15 @@ jQuery(document).ready(function($){
         });
         $('input[name="form-INITIAL_FORMS"]').val(nbre);
     });
+    $("#liste_ingredients li").click(function(){
+        if (this.value != 0){
+            $.ajax({
+                url : '../'+this.value+'/supprimer_ingredient/',
+                type : 'GET',
+                data_type : 'html'
+            });
+            $(this).text('Ingrédient supprimé');
+            $(this).hide(1000);
+        }
+    });
 });

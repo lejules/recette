@@ -92,6 +92,7 @@ class Commentaire(models.Model):
     cree = models.DateTimeField(auto_now_add=True)
     maj = models.DateTimeField(auto_now=True)
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
+    utilisateur = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.cree)

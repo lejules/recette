@@ -18,19 +18,22 @@
 
   		            </span>
 
-
                     <div class="inner">
 
                         <h2 class="entry-title">
-                            <a href="{% url 'recette:modifier_recette' recette.id %}" title="{{ recette.titre }}">
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'recette:modifier_recette' recette.id %}" title="Cliquez pour modifier la recette">
+                            {% else %}
+                            <a href="#" title="{{ recette.titre }}">
+                            {% endif %}
                                 {{ recette.titre }}
                             </a>
                         </h2>
                         <ul class="meta top">
                             <li class="time">
                                 <a href="#"
-                                   title="Camper Van Fun">
-                                    <time class="post-date updated" datetime="2014-10-06">
+                                   title="Mise à jour le {{ recette.maj|date:'d/m/Y' }}">
+                                    <time class="post-date updated" datetime="{{ recette.cree|date:'Y-m-d' }}">
                                         {{ recette.cree|date:'d/m/Y' }}
                                     </time>
                                 </a>
@@ -57,7 +60,7 @@
                         <div class="post-content">
                             <p style="text-align: center;">
                                 Préparation {{ recette.temps_preparation }} mn
-                                | Cuisson {{ recette.temps_cuisson }} mn
+                                | <span title="{{ recette.cuisson }}">Cuisson {{ recette.temps_cuisson }} mn</span>
                                 | Difficulté {{ recette.get_difficulte_display }}
                                 | Coût {{ recette.get_cout_display }}
                             </p>
@@ -104,16 +107,30 @@
                                 {% for com in recette.commentaire_set.all %}
                                 <li>
                                     <div class="comment-body">
-                                        {{ com.description }}
+                                        {{ com.description|linebreaks }}
                                     </div>
                                     <p class="comment-date">
-                                        Ecrit le {{ com.maj|date:'d/m/Y' }}
+                                        Ecrit le {{ com.maj|date:'d/m/Y' }} par {{ com.utilisateur }}
+                                        {% if user.is_authenticated %}
+                                            {% if user.id == com.utilisateur_id %}
+                                         <span class="suppr" data-id="{{ com.id }}">[X]</span>
+                                            {% endif %}
+                                        {% endif %}
                                     </p>
                                 </li>
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
+                    {% if user.is_authenticated %}
+                    <div>
+                        <form action="{% url 'recette:ajout_commentaire' recette.id %}" method="post">
+                            {% csrf_token %}
+                            {{ commentaire_form.as_p }}
+                            <input type="submit" name="ajouter" value="Ajouter" />
+                        </form>
+                    </div>
+                    {% endif %}
                 </article>
             </div>
         </section>

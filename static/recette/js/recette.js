@@ -26,4 +26,13 @@ jQuery(document).ready(function($){
             $(this).hide(1000);
         }
     });
+    $("#comments span.suppr").click(function(){
+            $.ajax({
+                url : '../'+$(this).data('id')+'/supprimer_commentaire/',
+                type : 'GET',
+                data_type : 'html'
+            });
+            $(this).parentsUntil('li').text('Commentaire supprimé');
+            $(this).parentsUntil('li').hide(1500);
+    });
 });

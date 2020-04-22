@@ -1,5 +1,6 @@
 from django import forms
 from .models import Recette, Media, Ingredient, Commentaire
+from django.utils.translation import gettext_lazy as _
 
 
 class formRecette(forms.ModelForm):
@@ -22,3 +23,11 @@ class formIngredient(forms.ModelForm):
         model = Ingredient
         exclude = ['recette']
 
+
+class formCommentaire(forms.ModelForm):
+
+    class Meta:
+        model = Commentaire
+        fields = ('description', )
+        labels = {'description': _('Votre commentaire :')}
+        help_texts = {'description': _('Pensez à enregistrer votre commentaire !')}

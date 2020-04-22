@@ -4,7 +4,7 @@ from .models import Recette, Ingredient, Media, Commentaire
 from django.forms import formset_factory
 from django.urls import reverse
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
-from .forms import formRecette, formMedia, formIngredient
+from .forms import formRecette, formMedia, formIngredient, formCommentaire
 
 
 # Create your views here.
@@ -23,7 +23,29 @@ def index(request):
 
 def detail(request, recette_id):
     recette = get_object_or_404(Recette, pk=recette_id)
-    return render(request, 'recette/detail.html', {'recette':recette,})
+    commentaire_form = formCommentaire()
+    return render(request, 'recette/detail.html', {'recette':recette, 'commentaire_form': commentaire_form, })
+
+
+@login_required(login_url='../admin/login?next=/recette/')
+def ajout_commentaire(request, recette_id):
+    if request.method == 'POST':
+        testForm = formCommentaire(request.POST)
+        if testForm.is_valid():
+            formComm = testForm.save(commit=False)
+            formComm.recette_id = recette_id
+            formComm.utilisateur_id = request.user.id
+            formComm.save()
+    return HttpResponseRedirect(reverse('recette:detail', args=(recette_id,)))
+
+
+@login_required(login_url='../admin/login?next=/recette/')
+def supprimer_commentaire(request, commentaire_id):
+    if request.method == 'GET':
+        test_commentaire = get_object_or_404(Commentaire, pk=commentaire_id)
+        if test_commentaire.utilisateur_id == request.user.id:
+            test_commentaire.delete()
+    return HttpResponse('Commentaire supprimé !')
 
 
 @login_required(login_url='../admin/login?next=/recette/')
